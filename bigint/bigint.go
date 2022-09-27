@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"errors"
-	"fmt"
+	
 )
 
 type Bigint struct {
@@ -59,7 +59,7 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 		}
 		// -a+b= (if a>b -a+b=-c else a<b b-a=c
 			if Str_Int(b)>0 && Str_Int(a)<0 {
-				fmt.Println("answer",answer)
+			
 				a=a[1:]
 				num1.Value=num1.Value[1:]
 	
@@ -85,7 +85,7 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 	case "-":
 		//a-b=(if a>b a-b=c else a<b b-a=-c)
 		if Str_Int(a)>0 && Str_Int(b)>0{
-			fmt.Println("1")
+	
 			if Str_Int(a)<Str_Int(b){
 				answer = Minus(num1,num2)
 				answer=AddMinus(answer)
@@ -98,12 +98,12 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 		}
 		//a-(-b)=(a+b)=c
 		if Str_Int(a)>0 && Str_Int(b)<0{  // test ok
-			fmt.Println("2")
+		
 			answer = Add(num1,num2)
 		}
 		// -a-b= -(a+b)=-c
 		if Str_Int(b)>0 && Str_Int(a)<0 {
-			fmt.Println("3")
+	
 			a=a[1:]
 			
 			num1.Value=num1.Value[1:]
@@ -114,7 +114,7 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 		// -a-(-b)= -a+b=b-a=(if b>a b-a=c or b<a )
 		if Str_Int(b)<0 && Str_Int(a)<0 {
 			
-			fmt.Println("4")
+		
 			a=a[1:]
 			num1.Value=num1.Value[1:]
 			b=b[1:]
@@ -157,7 +157,7 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 
 
 	}
-	fmt.Println("end")
+	
 return Clean(answer)
 }
 
