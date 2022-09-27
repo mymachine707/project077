@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"errors"
+	
 )
 
 type Bigint struct {
@@ -20,7 +21,7 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 	if err:=Validationstr(num2.Value); err!=nil{
 		panic(err)
 	}
-	if err:=SignValidation(sign.Value); err!=nil{
+	if err:=SignValidation(sign); err!=nil{
 		panic(err)
 	}
 	
@@ -29,12 +30,31 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 	num2=Clean(num2)
 
 
+	a:=Str_Int(num1.Value)
+	b:=Str_Int(num2.Value)
+
+	var answer Bigint
+
 	switch sign.Value {
 	case "+":
 		//a+b=c
+		if a>0 && b>0{  // test ok
+			answer = Add(num1,num2)
+		}
 		//a+(-b)=(if a>b a-b=c else a<b b-a=-c)
+		// if a>0 && b<0 {
+		// 	num2.Value=num2.Value[1:]
+		// 	// if a>b{  // test ok
+		// 	// 	answer=Minus(num1,num2)	// a>b a-b=c
+		// 	// }
+
+		// 	// if a<b {
+		// 	// 	answer=AddMinus(Minus(num2,num1))
+		// 	// }
+		// }
 		// -a+b= (if a>b -a+b=-c else a<b b-a=c
 		// -a+(-b)= -a-b=-(a+b)=-c
+	
 	case "-":
 		//a-b=(if a>b a-b=c else a<b b-a=-c)
 		//a-(-b)=(a+b)=c
@@ -46,13 +66,13 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 		// (-a)*b=-c
 		// (-a)*(-b)=c
 	case "/":
-		answer=nil
+	
 	case "%":
-		answer=nil
+
 
 	}
 
-
+return answer
 }
 
 
@@ -121,7 +141,7 @@ func Clean(num Bigint) Bigint {
 
 }
 
-func addMinus(sign Bigint) Bigint{
+func AddMinus(sign Bigint) Bigint{
 	var answer Bigint
 	
 	answer.Value+="-"
@@ -131,6 +151,7 @@ return answer
 }
 
 func SignValidation(sign Bigint) error{
+	ErrorValidation:=errors.New("Invalid sign!")
 	var answer error
 	switch sign.Value {
 
@@ -314,7 +335,7 @@ func Minus(num1, num2 Bigint) Bigint {
 	for i := 0; i < len(k); i++ {
 		answers.Value += k[i]
 	}
-
+	answers=Clean(answers)
 	return answers
 }
 

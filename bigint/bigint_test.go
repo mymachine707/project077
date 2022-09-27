@@ -4,9 +4,21 @@ package bigint
 import 	"testing"
 
 func TestMultiply(t *testing.T)  {
-	num1:=Bigint{Value: "123"}
-	num2:=Bigint{Value: "321"}
+	num1:=Bigint{Value: "20"}
+	num2:=Bigint{Value: "-100"}
+	sign:=Bigint{Value: "+"}
 
+
+	ans:=Bigint{Value: "-80"}// a+b  == a>0  b<0  
+
+	if Calculate(num1,num2,sign)!=ans {
+		t.Error("It's false")
+	}
+
+
+
+
+	/*
 	num3:=Bigint{Value: "-00000000000000000000000000000000000198"}
 
 	Multiplyans:=Bigint{Value: "39483"}
@@ -26,5 +38,6 @@ func TestMultiply(t *testing.T)  {
 	if Clean(num3)!=clear{
 		t.Error("It's false")
 	}
+	*/
 }
 // go test bigint/bigint_test.go
