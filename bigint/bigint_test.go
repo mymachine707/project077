@@ -4,18 +4,15 @@ package bigint
 import 	"testing"
 
 func TestMultiply(t *testing.T)  {
-	num1:=Bigint{Value: "20"}
-	num2:=Bigint{Value: "-100"}
+	num1:=Bigint{Value: "-20"}
+	num2:=Bigint{Value: "100"}
 	sign:=Bigint{Value: "+"}
-
-
-	ans:=Bigint{Value: "-80"}// a+b  == a>0  b<0  
-
+	ans:=Bigint{Value: "80"}// a+b  == a>0  b<0  
 	if Calculate(num1,num2,sign)!=ans {
 		t.Error("It's false")
 	}
-
-
+	//20+100=120 true
+	//20+(-100)=-80 true
 
 
 	/*

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"errors"
-	
+	"fmt"
 )
 
 type Bigint struct {
@@ -30,36 +30,106 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 	num2=Clean(num2)
 
 
-	a:=Str_Int(num1.Value)
-	b:=Str_Int(num2.Value)
+	a:=num1.Value
+	b:=num2.Value
 
 	var answer Bigint
 
 	switch sign.Value {
 	case "+":
 		//a+b=c
-		if a>0 && b>0{  // test ok
+		if Str_Int(a)>0 && Str_Int(b)>0{  // test ok
 			answer = Add(num1,num2)
 		}
 		//a+(-b)=(if a>b a-b=c else a<b b-a=-c)
-		// if a>0 && b<0 {
-		// 	num2.Value=num2.Value[1:]
-		// 	// if a>b{  // test ok
-		// 	// 	answer=Minus(num1,num2)	// a>b a-b=c
-		// 	// }
+		if Str_Int(a)>0 && Str_Int(b)<0{
+			
+			b=b[1:]
+			num2.Value=num2.Value[1:]
 
-		// 	// if a<b {
-		// 	// 	answer=AddMinus(Minus(num2,num1))
-		// 	// }
-		// }
+			if Str_Int(a)<Str_Int(b){
+				answer = Minus(num1,num2)
+				answer=AddMinus(answer)
+				break
+			}
+			if Str_Int(a)>Str_Int(b){
+				answer = Minus(num1,num2)
+				break
+			}
+		}
 		// -a+b= (if a>b -a+b=-c else a<b b-a=c
-		// -a+(-b)= -a-b=-(a+b)=-c
+			if Str_Int(b)>0 && Str_Int(a)<0 {
+				fmt.Println("answer",answer)
+				a=a[1:]
+				num1.Value=num1.Value[1:]
 	
+				if Str_Int(b)<Str_Int(a){
+					answer = Minus(num1,num2)
+					answer=AddMinus(answer)
+					break
+				}
+				if Str_Int(b)>Str_Int(a){
+					answer = Minus(num1,num2)
+					break
+				}
+			}
+		// -a+(-b)= -a-b=-(a+b)=-c
+		if Str_Int(b)<0 && Str_Int(a)<0 {
+			a=a[1:]
+			b=b[1:]
+			num1.Value=num1.Value[1:]
+			num2.Value=num2.Value[1:]
+			answer=Add(num1,num2)
+			answer=AddMinus(answer)
+		}
 	case "-":
 		//a-b=(if a>b a-b=c else a<b b-a=-c)
+		if Str_Int(a)>0 && Str_Int(b)>0{
+			fmt.Println("1")
+			if Str_Int(a)<Str_Int(b){
+				answer = Minus(num1,num2)
+				answer=AddMinus(answer)
+				break
+			}
+			if Str_Int(a)>Str_Int(b){
+				answer = Minus(num1,num2)
+				break
+			}
+		}
 		//a-(-b)=(a+b)=c
+		if Str_Int(a)>0 && Str_Int(b)<0{  // test ok
+			fmt.Println("2")
+			answer = Add(num1,num2)
+		}
 		// -a-b= -(a+b)=-c
+		if Str_Int(b)>0 && Str_Int(a)<0 {
+			fmt.Println("3")
+			a=a[1:]
+			
+			num1.Value=num1.Value[1:]
+			
+			answer=Add(num1,num2)
+			answer=AddMinus(answer)
+		}
 		// -a-(-b)= -a+b=b-a=(if b>a b-a=c or b<a )
+		if Str_Int(b)<0 && Str_Int(a)<0 {
+			
+			fmt.Println("4")
+			a=a[1:]
+			num1.Value=num1.Value[1:]
+			b=b[1:]
+			num2.Value=num2.Value[1:]
+			if Str_Int(b)<Str_Int(a){
+				answer = Minus(num1,num2)
+				answer=AddMinus(answer)
+				break
+			}
+			if Str_Int(b)>Str_Int(a){
+				answer = Minus(num1,num2)
+				break
+			}
+		}
+	
 	case "*":
 		// a*b=c
 		// a*(-b)=-c
@@ -71,9 +141,10 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 
 
 	}
-
-return answer
+	fmt.Println("end")
+return Clean(answer)
 }
+
 
 
 // Ro'yxatda bor funksiyalar:
