@@ -10,8 +10,53 @@ import (
 type Bigint struct {
 	Value string
 }
-// Ro'yxatda bor funksiyalar:
 
+
+
+func Calculate(num1,num2,sign Bigint)Bigint {
+	if err:=Validationstr(num1.Value); err!=nil{
+		panic(err)
+	}
+	if err:=Validationstr(num2.Value); err!=nil{
+		panic(err)
+	}
+	if err:=SignValidation(sign.Value); err!=nil{
+		panic(err)
+	}
+	
+
+	num1=Clean(num1)
+	num2=Clean(num2)
+
+
+	switch sign.Value {
+	case "+":
+		//a+b=c
+		//a+(-b)=(if a>b a-b=c else a<b b-a=-c)
+		// -a+b= (if a>b -a+b=-c else a<b b-a=c
+		// -a+(-b)= -a-b=-(a+b)=-c
+	case "-":
+		//a-b=(if a>b a-b=c else a<b b-a=-c)
+		//a-(-b)=(a+b)=c
+		// -a-b= -(a+b)=-c
+		// -a-(-b)= -a+b=b-a=(if b>a b-a=c or b<a )
+	case "*":
+		// a*b=c
+		// a*(-b)=-c
+		// (-a)*b=-c
+		// (-a)*(-b)=c
+	case "/":
+		answer=nil
+	case "%":
+		answer=nil
+
+	}
+
+
+}
+
+
+// Ro'yxatda bor funksiyalar:
 // Multiply
 // Vmult
 // Add
@@ -43,8 +88,6 @@ func Validationstr( num string ) error {
 }
 	return nil
 
-
-
 }
 
 
@@ -55,37 +98,6 @@ func Clean(num Bigint) Bigint {
 	}
 	start:=0
 
-// 	a := strings.Split(num.Value, "")
-// 	if a[0]=="-"{
-// 		a=a[1:]
-// 		m=1
-// 	}
-// 	if a[0]=="+"{
-// 		a=a[1:]
-// 	}
-
-
-// 	for i := 0; i < len(a); i++ {
-// 		if a[i]!="0"{
-// 			a=a[i:]
-// 			break
-// 		}
-// 		if a[i]=="0" && i+1< len(a){
-// 			a=a[i+1:]
-
-// 		}
-// 	}
-// 	var answer Bigint
-
-// 	if m==1{
-// 		answer.Value+="-"
-// 	}
-// 	fmt.Println(a)
-// 	for i := 0; i < len(a); i++ {
-// 		answer.Value+=a[i]
-// 	}
-
-// 	return answer
 
 	if string(num1[0])=="-" {
 		num1=num1[1:]
@@ -118,23 +130,22 @@ func addMinus(sign Bigint) Bigint{
 return answer
 }
 
-func SignValidation(sign Bigint) Bigint{
-	var answer Bigint
+func SignValidation(sign Bigint) error{
+	var answer error
 	switch sign.Value {
 
 		case "+":
-			answer=Bigint{Value: sign.Value}
+			answer=nil
 		case "-":
-			answer=Bigint{Value: sign.Value}
+			answer=nil
 		case "*":
-			answer=Bigint{Value: sign.Value}
+			answer=nil
 		case "/":
-			answer=Bigint{Value: sign.Value}
+			answer=nil
 		case "%":
-			answer=Bigint{Value: sign.Value}
+			answer=nil
 	default:
-			answer.Value= "Error: You cannot use this sign!"
-			break
+			return ErrorValidation
 	}
 return answer
 }
