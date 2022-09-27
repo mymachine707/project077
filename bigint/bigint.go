@@ -1,9 +1,10 @@
 package bigint
 
 import (
-
+"unicode"
 	"strconv"
 	"strings"
+	"errors"
 )
 
 type Bigint struct {
@@ -26,47 +27,86 @@ type Bigint struct {
 // AddtoMinus
 
 
+func Validationstr( num string ) error {
+	ErrorValidation:=errors.New("Invalid number!")
+	start:=0
+	if string(num[0])=="-" || string(num[0])=="+"{
+	
+	start = 1
+		} 
+	allowed := "1234567890"
+
+	for i := start; i < len(num); i++ {
+		if !strings.Contains(allowed, string(num[i])){
+			return ErrorValidation
+		}
+}
+	return nil
+
+
+
+}
 
 
 func Clean(num Bigint) Bigint {
-	a := strings.Split(num.Value, "")
-	m:=0
-	if a[0]=="-"{
-		a=a[1:]
-		m=1
+	num1:= num.Value
+	if err:=Validationstr(num1); err!=nil{
+		panic(err)
 	}
-	if a[0]=="+"{
-		a=a[1:]
+	start:=0
+
+// 	a := strings.Split(num.Value, "")
+// 	if a[0]=="-"{
+// 		a=a[1:]
+// 		m=1
+// 	}
+// 	if a[0]=="+"{
+// 		a=a[1:]
+// 	}
+
+
+// 	for i := 0; i < len(a); i++ {
+// 		if a[i]!="0"{
+// 			a=a[i:]
+// 			break
+// 		}
+// 		if a[i]=="0" && i+1< len(a){
+// 			a=a[i+1:]
+
+// 		}
+// 	}
+// 	var answer Bigint
+
+// 	if m==1{
+// 		answer.Value+="-"
+// 	}
+// 	fmt.Println(a)
+// 	for i := 0; i < len(a); i++ {
+// 		answer.Value+=a[i]
+// 	}
+
+// 	return answer
+
+	if string(num1[0])=="-" {
+		num1=num1[1:]
+		start=1
+	}
+	if string(num1[0])=="+" {
+		num1=num1[1:]
 	}
 
-	for i := 0; i < len(a); i++ {
-		if !IsnumberStr(a[i]){
-			return Bigint{Value:"Error: This string is not a number"}
-		}
+	for strings.HasPrefix(num1, "0"){
+		num1=num1[1:]
 	}
 
-	for i := 0; i < len(a); i++ {
-		if a[i]!="0"{
-			a=a[i:]
-
-			break
-		}
-		if a[i]=="0"{
-			a=a[i:]
-
-		}
-	}
-	var answer Bigint
-
-	if m==1{
-		answer.Value+="-"
+	if start==1{
+		num1="-"+num1	
 	}
 
-	for i := 0; i < len(a); i++ {
-		answer.Value+=a[i]
-	}
+	
 
-	return answer
+	return Bigint{Value: num1}
+
 }
 
 func addMinus(sign Bigint) Bigint{
