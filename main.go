@@ -8,13 +8,13 @@ import (
 func main() {
 	//Bigint strukturada o'zgaruvchi qiymatlari olindi
 	var num1 bigint.Bigint = bigint.Bigint{
-		Value: "20",
+		Value: "-20",
 	}
 	var num2 bigint.Bigint = bigint.Bigint{
-		Value: "100",
+		Value: "-100",
 	}
 	var sign bigint.Bigint = bigint.Bigint{
-		Value: "-",
+		Value: "*",
 	}
 /*
 	var num3 bigint.Bigint = bigint.Bigint{
@@ -23,8 +23,8 @@ func main() {
 	
 	Calculates := bigint.Calculate(num1,num2,sign)
 	fmt.Printf("num1: %v\n", num1)
-	fmt.Printf("sign: %v\n", sign)
 	fmt.Printf("num2: %v\n", num2)
+	fmt.Printf("sign: %v\n", sign)
 	fmt.Printf("Calculates: %v\n", Calculates)  //
 	
 	// var sign bigint.Bigint = bigint.Bigint{

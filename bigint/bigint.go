@@ -131,10 +131,26 @@ func Calculate(num1,num2,sign Bigint)Bigint {
 		}
 	
 	case "*":
-		// a*b=c
+		// a*b=c // (-a)*(-b)=c
+		if (Str_Int(a)>0 && Str_Int(b)>0)||(Str_Int(a)<0 && Str_Int(b)<0){
+			answer=Multiply(num1,num2)
+			break
+		}
 		// a*(-b)=-c
+		if Str_Int(a)>0 && Str_Int(b)<0{
+			num2.Value=num2.Value[1:]
+			answer=Multiply(num1,num2)
+			answer=AddMinus(answer)
+			break
+		}
 		// (-a)*b=-c
-		// (-a)*(-b)=c
+
+		if Str_Int(a)<0 && Str_Int(b)>0 {
+			num1.Value=num1.Value[1:]
+			answer=Multiply(num1,num2)
+			answer=AddMinus(answer)
+			break
+		}
 	case "/":
 	
 	case "%":
